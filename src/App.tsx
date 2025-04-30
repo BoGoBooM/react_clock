@@ -19,15 +19,19 @@ export class App extends React.Component<{}, State> {
 
   private timerId?: number;
 
-  componentDidMount() {
-    document.addEventListener('click', () => {
-      this.setState({ hasClock: true });
-    });
+  private showClock = () => {
+    this.setState({ hasClock: true });
+  };
 
-    document.addEventListener('contextmenu', event => {
-      event.preventDefault();
-      this.setState({ hasClock: false });
-    });
+  private hideClock = (event: MouseEvent) => {
+    event.preventDefault();
+    this.setState({ hasClock: false });
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.showClock);
+
+    document.addEventListener('contextmenu', this.hideClock);
 
     this.timerId = window.setInterval(() => {
       const newName = getRandomName();
